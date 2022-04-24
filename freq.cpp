@@ -3,6 +3,7 @@
 #include <sndfile.h>
 #include <cmath>
 #include <cmath>
+#include <memory>
 
 bool Freq::init(const char * path) {
     file = sf_open(path,SFM_READ,&info);
@@ -19,10 +20,14 @@ void Freq::calcEnergy(int time,int frame_range,int freq_range,int * freq,float *
         return;
     }
 
-    sf_seek(file,static_cast<int>(static_cast<float>(info.samplerate) * (static_cast<float>(time)/1000.f)),SF_SEEK_SET);
+    int shift = static_cast<int>(static_cast<float>(info.samplerate) * (static_cast<float>(time)/1000.f));
+    if(shift >= info.frames) {
+        memset(freq_energy,0,freq_size);
+        return;
+    }
+    sf_seek(file,shift,SF_SEEK_SET);
     double * buffer = new double[info.channels * frame_range];
-    sf_readf_double(file,buffer,frame_range);
-
+    frame_range = static_cast<int>(sf_readf_double(file,buffer,frame_range));
     fftw_complex * fi;
     fftw_complex* fo;
     fftw_plan p;
@@ -31,10 +36,9 @@ void Freq::calcEnergy(int time,int frame_range,int freq_range,int * freq,float *
     fi = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * n);
 
     for(int i = 0;i<n;i++) {
-        fi[i][0] = buffer[info.channels*i];
+        fi[i][0] = buffer[info.channels*i];//one channel
         fi[i][1] = 0;
     }
-
     fo = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * n);
     p = fftw_plan_dft_1d(n,fi,fo,FFTW_FORWARD,FFTW_ESTIMATE);
     fftw_execute(p);
@@ -56,7 +60,7 @@ void Freq::calcEnergy(int time,int frame_range,int freq_range,int * freq,float *
             total_energy += static_cast<float>(abs(fo[y][0]));
             count++;
         }
-        freq_energy[i] = total_energy / static_cast<float>(count);
+        freq_energy[i] = total_energy == 0 ? 0 : total_energy / static_cast<float>(count);
     }
 
     fftw_destroy_plan(p);

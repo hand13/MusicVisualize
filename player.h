@@ -13,4 +13,5 @@ class Player {
         stopped = true;
     }
     void cleanup();
+    ~Player(){cleanup();}
 };

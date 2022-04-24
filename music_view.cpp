@@ -20,8 +20,8 @@ void MusicViewer::draw(float w,float h,int size,int freq_min,int freq_max,const 
     float x_shift = ImGui::GetCursorPos().x + ImGui::GetWindowPos().x;
     float y_shift = ImGui::GetCursorPos().y + ImGui::GetWindowPos().y;
     int time = GetTickCount() - startCount;
-    float maxHeight = 80.0;
-    float margin_v = 0.1f;
+    float maxHeight = 20.0;
+    float margin_v = 0.2f;
     int frame_range = 4000;
     int freq_range = (freq_max - freq_min)/size;//todo
 

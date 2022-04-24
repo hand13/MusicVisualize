@@ -22,7 +22,11 @@ void Player::play(const char * path) {
     }while(state == AL_PLAYING && !stopped);
 }
 void Player::cleanup() {
-    alSourceStop(uiSource);
-    alDeleteSources(1,&uiSource);
-    alDeleteBuffers(1,&uiBuffer);
+    if(uiSource != 0){
+        alSourceStop(uiSource);
+        alDeleteSources(1,&uiSource);
+    }
+    if(uiBuffer != 0){
+        alDeleteBuffers(1,&uiBuffer);
+    }
 }
