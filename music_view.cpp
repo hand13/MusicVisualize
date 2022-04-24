@@ -23,7 +23,7 @@ void MusicViewer::draw(float w,float h,int size,int freq_min,int freq_max,const 
     float maxHeight = 80.0;
     float margin_v = 0.1f;
     int frame_range = 4000;
-    int freq_range = 10;
+    int freq_range = (freq_max - freq_min)/size;//todo
 
     int delta = (freq_max-freq_min)/size;
     int * freqs = new int[size];

@@ -2,6 +2,7 @@
 #include <fftw3.h>
 #include <sndfile.h>
 #include <cmath>
+#include <cmath>
 
 bool Freq::init(const char * path) {
     file = sf_open(path,SFM_READ,&info);
