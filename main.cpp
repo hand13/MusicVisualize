@@ -120,7 +120,7 @@ int main(int, char**)
     // Main loop
     bool done = false;
     MusicViewer mv;
-    mv.init("resource/blaze.wav");
+    mv.init("resource/badapple.wav");
     mv.play();
     while (!done)
     {
@@ -153,8 +153,7 @@ int main(int, char**)
         {
             static float f = 0.0f;
             static int counter = 0;
-
-            ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
+            ImGui::Begin("Music Frequency Rate");                          // Create a window called "Hello, world!" and append into it.
             // ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
             ImGui::Text("channels : %d,frames : %d,samplerate : %d",mv.getInfo().channels,mv.getInfo().frames,mv.getInfo().samplerate);
             mv.draw(800,400,120,0,mv.getInfo().samplerate/2);
