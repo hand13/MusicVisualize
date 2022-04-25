@@ -22,7 +22,9 @@ void Freq::calcEnergy(int time,int frame_range,int freq_range,int * freq,float *
 
     int shift = static_cast<int>(static_cast<float>(info.samplerate) * (static_cast<float>(time)/1000.f));
     if(shift >= info.frames) {
-        memset(freq_energy,0,freq_size);
+        for(int i = 0;i<freq_size;i++) {
+            freq_energy[i] = 0.f;
+        }
         return;
     }
     sf_seek(file,shift,SF_SEEK_SET);
