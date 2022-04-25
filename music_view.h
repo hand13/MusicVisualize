@@ -15,7 +15,10 @@ class MusicViewer {
     MusicViewer();
     bool init(const char * path);
     void play();
-    void draw(float w,float h,int size,int freq_min,int freq_max,const ImColor& color);
+    inline SF_INFO getInfo()const {
+        return freq.getInfo();
+    }
+    void draw(float w,float h,int size,int freq_min,int freq_max);
     ~MusicViewer() {
         player.stop();
         if(thr.joinable()) {

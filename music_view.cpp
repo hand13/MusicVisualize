@@ -15,7 +15,7 @@ void MusicViewer::play() {
         player.play(path.c_str());
     });
 }
-void MusicViewer::draw(float w,float h,int size,int freq_min,int freq_max,const ImColor& color) {
+void MusicViewer::draw(float w,float h,int size,int freq_min,int freq_max) {
     // ImVec2 pos= ImGui::GetCursorPos() + ImGui::GetWindowPos();
     float x_shift = ImGui::GetCursorPos().x + ImGui::GetWindowPos().x;
     float y_shift = ImGui::GetCursorPos().y + ImGui::GetWindowPos().y;
@@ -37,6 +37,8 @@ void MusicViewer::draw(float w,float h,int size,int freq_min,int freq_max,const 
     float width = (w/size) * (1-margin_v);
     float margin = (w/size) * margin_v;
 
+    float v = 1.f / static_cast<float>(size);
+
     for(int i = 0;i<size;i++) {
         float x = (width + 2 * margin)*i + margin + x_shift;
         float div = ene[i]/maxHeight;
@@ -44,7 +46,21 @@ void MusicViewer::draw(float w,float h,int size,int freq_min,int freq_max,const 
             div = 1.f;
         }
         float y = div * h;
-        ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x,height),ImVec2(x + width,height - y),color);
+
+        float num = v * i;
+        float r,g,b;
+        if(num < 0.5f) {
+            g = num * 2.f;
+            r = 1.f - g;
+            b = 0;
+        }else {
+            g = (1.f - num) * 2.f;
+            b = 1-g;
+            r = 0;
+        }
+
+        ImColor c = ImColor(ImVec4(r,g,b,1.f));
+        ImGui::GetWindowDrawList()->AddRectFilled(ImVec2(x,height),ImVec2(x + width,height - y),c);
     }
     delete ene;
     delete freqs;

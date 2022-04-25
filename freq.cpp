@@ -42,15 +42,15 @@ void Freq::calcEnergy(int time,int frame_range,int freq_range,int * freq,float *
     fo = (fftw_complex*)fftw_malloc(sizeof(fftw_complex) * n);
     p = fftw_plan_dft_1d(n,fi,fo,FFTW_FORWARD,FFTW_ESTIMATE);
     fftw_execute(p);
-    int f_delta = (info.samplerate/2)/frame_range;
+    int f_delta = (info.samplerate)/frame_range;
 
     for(int i = 0;i<freq_size;i++) {
         int f = freq[i];
-        int f_min = f - freq_range/2;
+        int f_min = f - (freq_range/2);
         if (f_min<0) {
             f_min = 0;
         }
-        int f_max = f + freq_range/2;
+        int f_max = f + (freq_range/2);
         int f_min_i = f_min / f_delta;
         int f_max_i = f_max /f_delta;
 

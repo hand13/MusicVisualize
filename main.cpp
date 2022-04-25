@@ -120,7 +120,7 @@ int main(int, char**)
     // Main loop
     bool done = false;
     MusicViewer mv;
-    mv.init("resource/badapple.wav");
+    mv.init("resource/blaze.wav");
     mv.play();
     while (!done)
     {
@@ -155,8 +155,9 @@ int main(int, char**)
             static int counter = 0;
 
             ImGui::Begin("Hello, world!");                          // Create a window called "Hello, world!" and append into it.
-            ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
-            mv.draw(600,400,30,500,8000,ImColor(ImVec4(255,0,0,255)));
+            // ImGui::Text("This is some useful text.");               // Display some text (you can use a format strings too)
+            ImGui::Text("channels : %d,frames : %d,samplerate : %d",mv.getInfo().channels,mv.getInfo().frames,mv.getInfo().samplerate);
+            mv.draw(800,400,120,0,mv.getInfo().samplerate/2);
             // ImGui::Checkbox("Demo Window", &show_demo_window);      // Edit bools storing our window open/close state
             // ImGui::Checkbox("Another Window", &show_another_window);
 
