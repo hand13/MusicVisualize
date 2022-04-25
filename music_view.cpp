@@ -22,7 +22,7 @@ void MusicViewer::draw(float w,float h,int size,int freq_min,int freq_max) {
     int time = GetTickCount() - startCount;
     float maxHeight = 20.0;
     float margin_v = 0.2f;
-    int frame_range = 4000;
+    int frame_range = 2048;//ref https://www.zhihu.com/question/463032478
     int freq_range = (freq_max - freq_min)/size;//todo
 
     int delta = (freq_max-freq_min)/size;
